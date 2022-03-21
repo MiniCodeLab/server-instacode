@@ -8,10 +8,13 @@ const getById = async (req, res, next) => {
         if (id != req.user.id) return next(setError(403, 'Forbidden'));
         const user = await User.findById(id)
         if (!user) return next(setError(404, 'User not found'));
-        delete user.password;
-        return res.status(200).json(user)
+        return res.json({
+            status: 200,
+            message: 'User Info',
+            data: { user: user }
+        });
     } catch (error) {
-        return next(error)
+        return next(setError(500, 'Failed recover user'))
     }
 }
 
@@ -21,10 +24,9 @@ const create = async (req, res, next) => {
         const userExist = await User.findOne({ email: newUser.email })
         if (userExist) return next(setError(409, 'This Email already exists'))
         const userInBd = await newUser.save()
-        delete userInBd.password;
         return res.status(201).json(userInBd)
     } catch (error) {
-        return next(error)
+        return next(setError(500, 'Create user fail'))
     }
 }
 
@@ -33,7 +35,6 @@ const authenticate = async (req, res, next) => {
         const userInBd = await User.findOne({ email: req.body.email })
         if (!userInBd) return next(setError(404, 'User not found'))
         if (bcrypt.compareSync(req.body.password, userInBd.password)) {
-            delete userInBd.password;
             const token = generateToken(userInBd._id, userInBd.email);
             return res.status(200).json({
                 user: userInBd,
@@ -41,8 +42,7 @@ const authenticate = async (req, res, next) => {
             });
         }
     } catch (error) {
-        error.message = 'Login Failed'
-        return next(error)
+        return next(setError(500, 'Login fail'))
     }
 
 }
