@@ -39,3 +39,5 @@ typings
 
 # Env
 .env
+
+.DS_Store

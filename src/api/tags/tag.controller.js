@@ -1,16 +1,16 @@
 const Tag = require('./tag.model');
 
-const getAll = async (req, res, next) => {
-    try {
-        const tags = await Tag.find();
-        return res.json({
-            status: 200,
-            message: 'User Info',
-            data: { tags: tags }
-        });
-    } catch (error) {
-        return next(setError(500, 'Failed get Tags'))
-    }
-}
+const getAll = async (_req, res, next) => {
+  try {
+    const tags = await Tag.find();
+    return res.json({
+      status: 200,
+      message: 'Retrieved all tags',
+      data: { tags }
+    });
+  } catch (error) {
+    return next(setError(500, 'Failed to retrieve all tags'));
+  }
+};
 
-module.exports = { getAll }
+module.exports = { getAll };

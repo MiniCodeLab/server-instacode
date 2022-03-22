@@ -21,22 +21,22 @@ paths:
               properties:
                 email:
                   type: string
-                  example: "minicodelab@gmail.com"
+                  example: 'minicodelab@gmail.com'
                 password:
                   type: string
-                  example: "MiniCodeLab@2022"
+                  example: 'MiniCodeLab@2022'
               required:
                 - email
                 - password
       responses:
-        "200":
+        '200':
           description: User details, a JWT access token and a refresh token cookie
           headers:
             Set-Cookie:
-              description: ""
+              description: ''
               schema:
                 type: string
-                example: 
+                example:
           content:
             application/json:
               schema:
@@ -44,26 +44,26 @@ paths:
                 properties:
                   id:
                     type: string
-                    example: "5eb12e197e06a76ccdefc121"
+                    example: '5eb12e197e06a76ccdefc121'
                   username:
                     type: string
-                    example: "MiniCodeLab"
+                    example: 'MiniCodeLab'
                   email:
                     type: string
-                    example: "minicodelab@gmail.com"
+                    example: 'minicodelab@gmail.com'
                   emoji:
                     type: string
-                    example: "🙈"
+                    example: '🙈'
                   jwtToken:
                     type: string
-                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWIxMmUxOTdlMDZhNzZjY2RlZmMxMjEiLCJpZCI6IjVlYjEyZTE5N2UwNmE3NmNjZGVmYzEyMSIsImlhdCI6MTU4ODc1ODE1N30.xR9H0STbFOpSkuGA9jHNZOJ6eS7umHHqKRhI807YT1Y"
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWIxMmUxOTdlMDZhNzZjY2RlZmMxMjEiLCJpZCI6IjVlYjEyZTE5N2UwNmE3NmNjZGVmYzEyMSIsImlhdCI6MTU4ODc1ODE1N30.xR9H0STbFOpSkuGA9jHNZOJ6eS7umHHqKRhI807YT1Y'
                   codes:
                     type: array
-                    example: [""]
+                    example: ['']
                   favCodes:
                     type: array
-                    example: [""]
-        "400":
+                    example: ['']
+        '400':
           description: The email or password is incorrect
           content:
             application/json:
@@ -72,7 +72,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: "Email or password is incorrect"
+                    example: 'Email or password is incorrect'
   /users:
     get:
       summary: Get a list of all users
@@ -81,7 +81,7 @@ paths:
       security:
         - bearerAuth: []
       responses:
-        "200":
+        '200':
           description: An array of all users
           content:
             application/json:
@@ -92,28 +92,28 @@ paths:
                   properties:
                     id:
                       type: string
-                      example: "5eb12e197e06a76ccdefc121"
+                      example: '5eb12e197e06a76ccdefc121'
                     firstName:
                       type: string
-                      example: "MiniCodeLab"
+                      example: 'MiniCodeLab'
                     lastName:
                       type: string
-                      example: "MiniCodeLab"
+                      example: 'MiniCodeLab'
                     username:
                       type: string
-                      example: "MiniCodeLab"
+                      example: 'MiniCodeLab'
                     role:
                       type: string
-                      example: "Admin"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                      example: 'Admin'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
   /users/{id}:
     parameters:
       - in: path
         name: id
         description: User id
         required: true
-        example: "5eb12e197e06a76ccdefc121"
+        example: '5eb12e197e06a76ccdefc121'
         schema:
           type: string
     get:
@@ -123,7 +123,7 @@ paths:
       security:
         - bearerAuth: []
       responses:
-        "200":
+        '200':
           description: Details of the specified user
           content:
             application/json:
@@ -132,23 +132,23 @@ paths:
                 properties:
                   id:
                     type: string
-                    example: "5eb12e197e06a76ccdefc121"
+                    example: '5eb12e197e06a76ccdefc121'
                   firstName:
                     type: string
-                    example: "MiniCodeLab"
+                    example: 'MiniCodeLab'
                   lastName:
                     type: string
-                    example: "MiniCodeLab"
+                    example: 'MiniCodeLab'
                   username:
                     type: string
-                    example: "MiniCodeLab"
+                    example: 'MiniCodeLab'
                   role:
                     type: string
-                    example: "Admin"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
+                    example: 'Admin'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
 components:
   securitySchemes:
     bearerAuth:
@@ -165,7 +165,7 @@ components:
             properties:
               message:
                 type: string
-                example: "Unauthorized"
+                example: 'Unauthorized'
     NotFoundError:
       description: Not Found
       content:
@@ -175,4 +175,4 @@ components:
             properties:
               message:
                 type: string
-                example: "Not Found"
+                example: 'Not Found'

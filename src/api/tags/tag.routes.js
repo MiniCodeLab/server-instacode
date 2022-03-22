@@ -4,4 +4,4 @@ const { getAll } = require('./tag.controller');
 
 TagRoutes.get('/', [authorize], getAll);
 
-module.exports = TagRoutes
+module.exports = TagRoutes;
