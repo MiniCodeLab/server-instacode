@@ -23,10 +23,12 @@ const create = async (req, res, next) => {
     const newUser = new User(req.body);
     const userExist = await User.findOne({ email: newUser.email });
     if (userExist) return next(setError(409, 'This Email already exists'));
+
     const userInBd = await newUser.save();
     return res.status(201).json(userInBd);
   } catch (error) {
-    return next(setError(500, 'Failed to create user'));
+    console.log(error);
+    return next(setError(500, error.message || 'Failed to create user'));
   }
 };
 
@@ -34,6 +36,7 @@ const authenticate = async (req, res, next) => {
   try {
     const userInBd = await User.findOne({ email: req.body.email });
     if (!userInBd) return next(setError(404, 'User not found'));
+
     if (bcrypt.compareSync(req.body.password, userInBd.password)) {
       const token = generateToken(userInBd._id, userInBd.email);
       return res.status(200).json({

@@ -5,10 +5,7 @@ const getAll = async (req, res, next) => {
   try {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const skip = (page - 1) * 20;
-    const codes = await Code.find()
-      .populate('author', 'username')
-      .skip(skip)
-      .limit(20);
+    const codes = await Code.find().populate('author').skip(skip).limit(20);
 
     return res.json({
       status: 200,
@@ -16,6 +13,7 @@ const getAll = async (req, res, next) => {
       data: { codes: codes }
     });
   } catch (error) {
+    console.log(error.message);
     return next(setError(500, 'Failed to retrieve all codes'));
   }
 };
@@ -45,7 +43,7 @@ const create = async (req, res, next) => {
       data: { code: codeInBd }
     });
   } catch (error) {
-    return next(setError(500, 'Failed to create code'));
+    return next(setError(500, error.message | 'Failed to create code'));
   }
 };
 

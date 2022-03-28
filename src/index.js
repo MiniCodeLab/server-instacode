@@ -10,10 +10,19 @@ const TagRoutes = require('./api/tags/tag.routes');
 const { connectDb } = require('./helpers/db');
 // Port
 const PORT = process.env.PORT || 8000;
-// inicilizate express
-const app = express();
 // Connect DataBase
 connectDb();
+// Initialize express
+const app = express();
+// Cors enable
+app.use(
+  cors({
+    origin: (_origin, callback) => {
+      callback(null, true);
+    },
+    credentials: true
+  })
+);
 // Headers & Verbs
 app.use((_req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH');
@@ -21,13 +30,6 @@ app.use((_req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
-// Cors enable
-app.use(
-  cors({
-    origin: (_origin, callback) => callback(null, true),
-    credentials: true
-  })
-);
 // Json Data
 app.use(express.json({ limit: '1mb' }));
 // urlEncoded
