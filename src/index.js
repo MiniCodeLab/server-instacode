@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 8000;
 connectDb();
 // Initialize express
 const app = express();
-// Cors enable
+// Enable Cors
 app.use(
   cors({
     origin: (_origin, callback) => {
@@ -50,7 +50,7 @@ app.use('*', (_req, _res, next) => {
 // Error handler
 app.use((error, _req, res, _next) => {
   return res
-    .status(error.status || 500)
+    .status(error.code || 500)
     .json(error.message || 'Unexpected error');
 });
 // Enable Language

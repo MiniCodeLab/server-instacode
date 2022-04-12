@@ -2,6 +2,18 @@ const User = require('./user.model');
 const bcrypt = require('bcrypt');
 const { generateToken, setError } = require('../../helpers/utils');
 
+const getUserData = async (req, res) => {
+  const { user } = req;
+
+  const { password, __v, createdAt, ...restUser } = user.toObject()
+
+  return res.json({
+    status: 200,
+    message: 'User Info',
+    data: restUser
+  });
+};
+
 const getById = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -43,6 +55,8 @@ const authenticate = async (req, res, next) => {
         user: userInBd,
         token: token
       });
+    } else {
+      return next(setError(401, 'Email or password are not correct'));
     }
   } catch (error) {
     return next(setError(500, 'Unexpected login error'));
@@ -50,7 +64,8 @@ const authenticate = async (req, res, next) => {
 };
 
 module.exports = {
-  getById,
+  authenticate,
   create,
-  authenticate
+  getById,
+  getUserData
 };
