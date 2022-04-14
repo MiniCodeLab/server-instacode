@@ -1,14 +1,16 @@
 const CodeRoutes = require('express').Router();
 const { authorize } = require('../../middleware/authorize');
 const {
-  getAll,
-  getById,
   create,
+  deleteCode,
+  getAll,
+  getAllUserSnippets,
+  getById,
   update,
-  deleteCode
 } = require('./code.controller');
 
 CodeRoutes.get('/', [authorize], getAll);
+CodeRoutes.get('/user', [authorize], getAllUserSnippets);
 CodeRoutes.get('/:id', [authorize], getById);
 CodeRoutes.post('/', [authorize], create);
 CodeRoutes.patch('/:id', [authorize], update);

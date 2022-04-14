@@ -31,6 +31,24 @@ const getAll = async (req, res, next) => {
   }
 };
 
+const getAllUserSnippets = async (req, res, next) => {
+  try {
+    const codes = await Code.find({
+      author: req.user._id
+    }).sort({
+      createdAt: 'desc'
+    });
+
+    return res.status(200).json({
+      message: 'Recovered all user codes',
+      data: { codes }
+    });
+  } catch (error) {
+    console.log(error.message);
+    return next(setError(500, 'Failed to retrieve user codes'));
+  }
+};
+
 const getById = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -66,10 +84,12 @@ const update = async (req, res, next) => {
     const { id } = req.params;
     const code = new Code(req.body);
     code._id = id;
+
     const updatedCode = await Code.findByIdAndUpdate(id, code);
     if (!updatedCode) return next(setError(404, 'Code not found'));
+
     return res.json({
-      status: 201,
+      status: 200,
       message: 'Code updated',
       data: { code: updatedCode }
     });
@@ -95,9 +115,10 @@ const deleteCode = async (req, res, next) => {
 };
 
 module.exports = {
-  getAll,
-  getById,
   create,
-  update,
-  deleteCode
+  deleteCode,
+  getAll,
+  getAllUserSnippets,
+  getById,
+  update
 };
