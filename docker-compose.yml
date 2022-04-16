@@ -1,0 +1,35 @@
+version: "3.7"
+
+services: 
+  instacode: 
+    build: .
+    depends_on:
+      - db
+    environment:
+      - MONGO_URI=mongodb://db/instacode
+      - PORT=3000
+      - JWT_SECRET=secret
+    ports: 
+      - "3000:3000"
+    volumes:
+      - ./src:/usr/src/app
+      - nodemodules:/usr/src/app/node_modules
+    command: npm run start
+    networks:
+      - instacode
+  db:
+    image: mongo
+    ports: 
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+    networks:
+      - instacode
+networks:
+  instacode:
+    name: instacode
+    external: false
+volumes:
+  nodemodules:
+    driver: local
+  mongodata:
